@@ -1,0 +1,10 @@
+[Unit]
+Description=timer for task
+
+[Timer]
+OnBootSec=1min
+ONUnitActiveSec=1min
+Unit=task.service
+
+[Install]
+WantedBy=timers.target

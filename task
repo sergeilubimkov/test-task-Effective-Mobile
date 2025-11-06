@@ -1,0 +1,34 @@
+#!/bin/bash
+
+logfile="/var/log/monitoring.log"
+url="https://test.com/monitoring/test/api"
+file_pid="/tmp/test_pid"
+
+
+current_pid=$(pgrep -x "test")
+
+if [ -n "$current_pid" ]
+then
+	if [ -f $file_pid ]
+	then
+		last_pid=$(tail -n 1 $file_pid)
+	       	if [ "$last_pid" != "$current_pid" ]
+		then
+			echo "$(date '+%F %T') процесс test был перезапущен" >> $logfile
+		fi	
+	fi
+
+	echo "$current_pid" > $file_pid
+	code=$( curl -s -o /dev/null -w "%{http_code}" $url)
+	if [ "$code" != "200" ]
+	then
+		echo "$(date '+%F %T') сервер $url недоступен" >> $logfile
+	fi
+fi
+
+
+echo $current_pid
+echo $file_pid
+echo $last_pid
+echo $code
+
