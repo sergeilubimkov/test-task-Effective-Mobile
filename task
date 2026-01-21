@@ -2,9 +2,9 @@
 
 logfile="/var/log/monitoring.log"
 url="https://test.com/monitoring/test/api"
-file_pid="/tmp/test_pid"
+file_pid="/var/run/test_pid"
 
-
+set -euo pipefail
 current_pid=$(pgrep -x "test")
 
 if [ -n "$current_pid" ]
