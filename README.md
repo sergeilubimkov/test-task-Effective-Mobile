@@ -40,3 +40,7 @@ sudo systemctl enable --now task.timer
 ```
 
 
+Фидбек:
+ONUnitActiveSec должно быть OnUnitActiveSec (регистр важен). Type=simple допустимо, но для одноразового скрипта лучше Type=oneshot, потому что task.sh завершается, а Restart=on-failure не нужен. Нет set -euo pipefail — при ошибках или пустых переменных скрипт может завершиться некорректно. PID-файл в /tmp очищается после каждого ребута — значит, после перезагрузки всегда будет лог о «перезапуске».
+
+
